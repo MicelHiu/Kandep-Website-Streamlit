@@ -4,6 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import joblib
+import os
 
 features = [
     "Program Studi",
@@ -43,9 +44,11 @@ def train_and_save_model(csv_path="Hasil survey.csv"):
 if __name__ == "__main__":
     train_and_save_model()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def load_model():
-    model = joblib.load("tenant_recommendation_model.pkl")
-    encoders = joblib.load("label_encoders.pkl")
+    model = joblib.load(os.path.join(BASE_DIR, "tenant_recommendation_model.pkl"))
+    encoders = joblib.load(os.path.join(BASE_DIR, "label_encoders.pkl"))
     return model, encoders
 
 def predict_tenant(model, encoders, prodi, budget, jenis_makanan):
