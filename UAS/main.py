@@ -1,8 +1,65 @@
 import streamlit as st
 import pandas as pd 
 
+def load_css():
+    st.markdown("""
+    <style>
+    .stApp {
+        background-color: #FBE6A1;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background-color: #2E5AA7;        
+    }
+                
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] label {
+        color: white;
+    }
+    
+    h1 {
+        color: #2E5AA7;
+        font-weight: 800;
+    }
+    
+    input, textarea, select {
+        border-radius: 10px !important;
+        border: 1px solid #86C5FF !important;
+    }
+                
+    
+    div.stButton > button {
+        background-color: #FFA62B;
+        color: #2E5AA7;
+        border-radius: 12px;
+        padding: 0.6rem 1.4rem;
+        font-weight: bold;
+        border: none;
+    }
+                
+    .card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 18px;
+        box-shadow: 0px 6px 18px rgba(0,0,0,0.12);
+    }
+    
+    hr {
+        border: none;
+        height: 2px;
+        background-color: #2E5AA7;
+    }
+    </style>
+    
+""", unsafe_allow_html=True)
+
 #Halaman
 st.set_page_config(page_title="KANDEP", layout="wide")
+
+load_css()
 
 #State
 if "page" not in st.session_state:
@@ -92,4 +149,4 @@ elif st.session_state.page == "About Us":
         Catur - 202310 
         Michelle - 202310 
         Najla - 2023105534
-        """)
+        """, unsafe_allow_html=True)
