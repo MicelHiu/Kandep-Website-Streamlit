@@ -2,6 +2,16 @@ import streamlit as st
 import pandas as pd
 from model import load_model, predict_tenant 
 
+def convert_budget(budget):
+    if budget < 10000:
+        return "< Rp10.000"
+    elif 10000 <= budget <= 20000:
+        return "Rp10.000 - Rp20.000"
+    elif 21000 <= budget <= 30000:
+        return "Rp21.000 - Rp30.000"
+    else:
+        return "> Rp30.000"
+
 def load_css():
     st.markdown("""
     <style>
@@ -87,11 +97,14 @@ if menu != st.session_state.page:
 #Halaman Beranda
 if st.session_state.page == "Beranda":
     st.title("KANDEP")
-    st.write("Semua Rasa Lapar dan Hausmu bisa diatas dari Web ini")
+    st.write("Semua Rasa Lapar dan Hausmu bisa diatasi dari Web ini")
     st.markdown("---")
 
     #input data
-    prodi = st.text_input("Masukan Program Studi", placeholder="Contoh : Informatika")
+    prodi = st.selectbox(
+        "Program Studi Anda?",
+        ["IF","SI", "DKV", "IK", "MN", "AK", "PSG", "PRW"]
+    )
 
     #input harga
     budget = st.slider(
