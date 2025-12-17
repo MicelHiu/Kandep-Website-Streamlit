@@ -1,17 +1,95 @@
 import streamlit as st
 import pandas as pd 
 
-#Title
-st.title("TENANT KANDEP")
-st.write("Rekomendasi dari TOP 3 Program Studi terbanyak")
-st.markdown("---")
+#Halaman
+st.set_page_config(page_title="KANDEP", layout="wide")
 
-menu = st.sidebar.selectbox(
+#State
+if "page" not in st.session_state:
+    st.session_state.page = "Beranda"
+
+#Sidebar
+pages = ["Beranda","Hasil Rekomendasi","About Us"]
+
+st.sidebar.title("Menu")
+menu = st.sidebar.radio(
     "Pilih Halaman",
-    ["Beranda","About us"]
+    pages,
+    index=pages.index(st.session_state.page)
 )
 
-st.subheader("Informatika")
+#update halama jika berubah
+if menu != st.session_state.page:
+    st.session_state.page = menu
 
-if menu == "Beranda":
-    st
+#Halaman Beranda
+if st.session_state.page == "Beranda":
+    st.title("KANDEP")
+    st.write("Semua Rasa Lapar dan Hausmu bisa diatas dari Web ini")
+    st.markdown("---")
+
+    #input data
+    prodi = st.text_input("Masukan Program Studi", placeholder="Contoh : Informatika")
+
+    #input harga
+    budget = st.slider(
+        "Budget Pengeluaran (Rp)",
+        min_value=5000,
+        max_value=100000,
+        step=5000
+    )
+
+    #Pilih Jenis Makanan
+    jenis_makanan = st.selectbox(
+        "Mau makan apa?",
+        ["Makanan","Minuman", "Dessert"]
+    )
+
+    st.markdown("---")
+    if st.button("OK"):
+        st.session_state.prodi = prodi
+        st.session_state.budget = budget
+        st.session_state.jenis_makanan = jenis_makanan
+        
+        #PINDAH HALAMAN
+        st.session_state.page = "Hasil Rekomendasi"
+        st.rerun()
+
+#Hasil Rekomendasi
+elif st.session_state.page == "Hasil Rekomendasi":
+    st.title("Hasil Rekomendasi Tenant")
+    st.markdown("---")
+
+    st.write(f"**ProgramStudi:** {st.session_state.get('prodi', '-')}")
+    st.write(f"**Budget:** Rp {st.session_state.get('budget', '-')}")
+    st.write(f"**Kategori:** {st.session_state.get('jenis_makanan', '-')}")
+
+    st.markdown("---")
+
+    #contoh
+    if st.session_state.get('jenis_makanan') == "Makanan":
+        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
+    elif st.session_state.get('jenis_makanan') == "Minuman":
+        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
+    else:
+        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
+    
+    st.subheader("Daftar Tenant")
+    for t in tenants:
+        st.markdown(f"- {t}")
+    
+    st.markdown("---")
+    if st.button("Coba lagi"):
+        st.session_state.page = "Beranda"
+        st.rerun()
+
+#Halaman US
+elif st.session_state.page == "About Us":
+    st.title("ABOUT US")
+    st.markdown("""
+        Kelompok 3 
+        Bene - 202310 
+        Catur - 202310 
+        Michelle - 202310 
+        Najla - 2023105534
+        """)
