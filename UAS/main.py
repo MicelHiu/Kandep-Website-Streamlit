@@ -114,9 +114,15 @@ if st.session_state.page == "Beranda":
         step=5000
     )
 
+    #waktu
+    waktu = st.selectbox(
+        "Mau datang kapan nih?",
+        ["Pagi","Siang", "Sore", "Malam"]
+    )
+
     #Pilih Jenis Makanan
     jenis_makanan = st.selectbox(
-        "Mau makan apa?",
+        "Mau beli apa?",
         ["Makanan","Minuman", "Dessert"]
     )
 
@@ -125,6 +131,7 @@ if st.session_state.page == "Beranda":
         st.session_state.prodi = prodi
         st.session_state.budget = convert_budget(budget)
         st.session_state.jenis_makanan = jenis_makanan
+        st.session.state.waktu = waktu
         
         #PINDAH HALAMAN
         st.session_state.page = "Hasil Rekomendasi"
@@ -138,6 +145,7 @@ elif st.session_state.page == "Hasil Rekomendasi":
     prodi = st.session_state.get("prodi")
     budget = st.session_state.get("budget")
     jenis_makanan = st.session_state.get("jenis_makanan")
+    waktu = st.session_state.get("waktu")
 
     st.write(f"**ProgramStudi:** {prodi}")
     st.write(f"**Budget:** Rp {budget}")
@@ -151,7 +159,8 @@ elif st.session_state.page == "Hasil Rekomendasi":
             encoders,
             st.session_state.prodi,
             st.session_state.budget,
-            st.session_state.jenis_makanan
+            st.session_state.jenis_makanan,
+            st.session_state.waktu
         )
         st.subheader("3 Tenant Teratas untuk Anda:")
         for i, row in top3.iterrows():

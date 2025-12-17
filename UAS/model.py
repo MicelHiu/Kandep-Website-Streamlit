@@ -8,7 +8,8 @@ import joblib
 features = [
     "Program Studi",
     "Berapa rata-rata pengeluaran Anda per kunjungan?",
-    "Menu apa yang paling sering Anda pesan?"
+    "Menu apa yang paling sering Anda pesan?",
+    "Kapan Anda mengunjungi KANDEP?"
 ]
 
 target = "Tenant mana yang sering anda kunjungi?"
@@ -48,11 +49,12 @@ def load_model():
     encoders = joblib.load("label_encoders.pkl")
     return model, encoders
 
-def predict_tenant(model, encoders, prodi, budget, jenis_makanan):
+def predict_tenant(model, encoders, prodi, budget, jenis_makanan, waktu):
     input_df = pd.DataFrame([{
         "Program Studi": encoders["Program Studi"].transform([prodi])[0],
         "Berapa rata-rata pengeluaran Anda per kunjungan?": encoders["Berapa rata-rata pengeluaran Anda per kunjungan?"].transform([budget])[0],
-        "Menu apa yang paling sering Anda pesan?": encoders["Menu apa yang paling sering Anda pesan?"].transform([jenis_makanan])[0]
+        "Menu apa yang paling sering Anda pesan?": encoders["Menu apa yang paling sering Anda pesan?"].transform([jenis_makanan])[0],
+        "Kapan Anda mengunjungi KANDEP?": encoders["Kapan Anda mengunjungi KANDEP?"].transform([waktu])[0],
     }])
     proba = model.predict_proba(input_df)[0]
     nama_tenant = encoders[target].classes_
