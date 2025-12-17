@@ -4,13 +4,13 @@ from model import load_model, predict_tenant
 
 def convert_budget(budget):
     if budget < 10000:
-        return "< Rp10.000"
+        return "< 10.000"
     elif 10000 <= budget <= 20000:
         return "10.000 - 20.000"
     elif 21000 <= budget <= 30000:
         return "21.000 - 30.000"
     else:
-        return "> Rp30.000"
+        return "> 30.000"
 
 def load_css():
     st.markdown("""
@@ -103,7 +103,7 @@ if st.session_state.page == "Beranda":
     #input data
     prodi = st.selectbox(
         "Program Studi Anda?",
-        ["IF","SI", "DKV", "IK", "MN", "AK", "PSG", "PRW"]
+        encoders["Program Studi"].classes_
     )
 
     #input harga
@@ -114,16 +114,10 @@ if st.session_state.page == "Beranda":
         step=5000
     )
 
-    #waktu
-    waktu = st.selectbox(
-        "Mau datang kapan nih?",
-        ["Pagi","Siang", "Sore", "Malam"]
-    )
-
     #Pilih Jenis Makanan
     jenis_makanan = st.selectbox(
         "Mau beli apa?",
-        ["Makanan","Minuman", "Dessert"]
+        encoders["Menu apa yang paling sering Anda pesan?"].classes_
     )
 
     st.markdown("---")
@@ -131,7 +125,6 @@ if st.session_state.page == "Beranda":
         st.session_state.prodi = prodi
         st.session_state.budget = convert_budget(budget)
         st.session_state.jenis_makanan = jenis_makanan
-        st.session.state.waktu = waktu
         
         #PINDAH HALAMAN
         st.session_state.page = "Hasil Rekomendasi"
@@ -145,10 +138,9 @@ elif st.session_state.page == "Hasil Rekomendasi":
     prodi = st.session_state.get("prodi")
     budget = st.session_state.get("budget")
     jenis_makanan = st.session_state.get("jenis_makanan")
-    waktu = st.session_state.get("waktu")
 
     st.write(f"**ProgramStudi:** {prodi}")
-    st.write(f"**Budget:** Rp {budget}")
+    st.write(f"**Budget:**  {budget}")
     st.write(f"**Kategori:** {jenis_makanan}")
 
     st.markdown("---")
@@ -160,7 +152,6 @@ elif st.session_state.page == "Hasil Rekomendasi":
             st.session_state.prodi,
             st.session_state.budget,
             st.session_state.jenis_makanan,
-            st.session_state.waktu
         )
         st.subheader("3 Tenant Teratas untuk Anda:")
         for i, row in top3.iterrows():
