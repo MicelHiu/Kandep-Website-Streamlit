@@ -11,10 +11,11 @@ features = [
     "Menu apa yang paling sering Anda pesan?"
 ]
 
-target = "Tenant mana yang sering di kunjungi?"
+target = "Tenant mana yang sering anda kunjungi?"
 
 def train_and_save_model(csv_path="Hasil survey.csv"):
     df = pd.read_csv(csv_path)
+    df.columns = df.columns.str.strip() # membersihkan spasi di header kolom
     data = df[features + [target]].dropna()
     encoders = {}
     for col in data.columns:
