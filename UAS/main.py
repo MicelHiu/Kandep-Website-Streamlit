@@ -1,5 +1,6 @@
 import streamlit as st
-import pandas as pd 
+import pandas as pd
+from model import load_model, predict_tenant 
 
 def load_css():
     st.markdown("""
@@ -55,6 +56,10 @@ def load_css():
     </style>
     
 """, unsafe_allow_html=True)
+@st.cache_resource
+def load_ml():
+    return load_model()
+model, encoders = load_ml()
 
 #Halaman
 st.set_page_config(page_title="KANDEP", layout="wide")
@@ -117,23 +122,33 @@ elif st.session_state.page == "Hasil Rekomendasi":
     st.title("Hasil Rekomendasi Tenant")
     st.markdown("---")
 
-    st.write(f"**ProgramStudi:** {st.session_state.get('prodi', '-')}")
-    st.write(f"**Budget:** Rp {st.session_state.get('budget', '-')}")
-    st.write(f"**Kategori:** {st.session_state.get('jenis_makanan', '-')}")
+    prodi = st.session_state.get("prodi")
+    budget = st.session_state.get("budget")
+    jenis_makanan = st.session_state.get("jenis_makanan")
+
+    st.write(f"**ProgramStudi:** {prodi}")
+    st.write(f"**Budget:** Rp {budget}")
+    st.write(f"**Kategori:** {jenis_makanan}")
 
     st.markdown("---")
 
-    #contoh
-    if st.session_state.get('jenis_makanan') == "Makanan":
-        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
-    elif st.session_state.get('jenis_makanan') == "Minuman":
-        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
-    else:
-        tenants = ["nasi ayam", "nasi ayam", "nasi ayam"]
-    
-    st.subheader("Daftar Tenant")
-    for t in tenants:
-        st.markdown(f"- {t}")
+    try:
+        top3 = predict_tenant(
+            model,
+            encoders,
+            prodi,
+            budget,
+            jenis_makanan
+        )
+        st.subheader("3 Tenant Teratas untuk Anda:")
+        for i, row in top3.iterrows():
+            st.markdown(
+                 f"### 🏪 {row['Tenant']}\n"
+                f"Relevansi: **{row['Probabilitas']*100:.2f}%**"
+            )
+    except Exception as e:
+        st.error("Data input tidak dikenali oleh mesin.")
+        st.caption(str(e))
     
     st.markdown("---")
     if st.button("Coba lagi"):
