@@ -2,9 +2,12 @@ import streamlit as st
 import pandas as pd
 from model import load_model, predict_tenant 
 
+#Halaman
+st.set_page_config(page_title="KANDEP", layout="wide")
+
 def convert_budget(budget):
     if budget < 10000:
-        return "< 10.000"
+        return "< Rp10.000"
     elif 10000 <= budget <= 20000:
         return "10.000 - 20.000"
     elif 21000 <= budget <= 30000:
@@ -70,9 +73,6 @@ def load_css():
 def load_ml():
     return load_model()
 model, encoders = load_ml()
-
-#Halaman
-st.set_page_config(page_title="KANDEP", layout="wide")
 
 load_css()
 
@@ -151,7 +151,7 @@ elif st.session_state.page == "Hasil Rekomendasi":
             encoders,
             st.session_state.prodi,
             st.session_state.budget,
-            st.session_state.jenis_makanan,
+            st.session_state.jenis_makanan
         )
         st.subheader("3 Tenant Teratas untuk Anda:")
         for i, row in top3.iterrows():
@@ -173,8 +173,8 @@ elif st.session_state.page == "About Us":
     st.title("ABOUT US")
     st.markdown("""
         Kelompok 3 
-        Bene - 202310 
-        Catur - 202310 
-        Michelle - 202310 
+        Bene - 2023105489 
+        Catur - 2023105533 
+        Michelle - 2023105488 
         Najla - 2023105534
         """, unsafe_allow_html=True)
