@@ -69,7 +69,7 @@ def load_css():
     </style>
     
 """, unsafe_allow_html=True)
-@st.cache_resource
+    
 def load_ml():
     return load_model()
 model, encoders = load_ml()

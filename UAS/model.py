@@ -55,9 +55,10 @@ def predict_tenant(model, encoders, prodi, budget, jenis_makanan):
         "Menu apa yang paling sering Anda pesan?": encoders["Menu apa yang paling sering Anda pesan?"].transform([jenis_makanan])[0],
     }])
     proba = model.predict_proba(input_df)[0]
-    nama_tenant = encoders[target].classes_
+    tenant_encoded = model.classes_
+    tenant_nama = encoders[target].inverse_transform(tenant_encoded)
     result = pd.DataFrame({
-        "Tenant": nama_tenant,
+        "Tenant": tenant_nama,
         "Probabilitas": proba
     }).sort_values(by="Probabilitas", ascending=False)
     return result.head(3)
