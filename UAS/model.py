@@ -30,7 +30,7 @@ def train_and_save_model(csv_path="Hasil survey.csv"):
         X, y, test_size=0.2, random_state=42
     )
     model = RandomForestClassifier(n_estimators=200, random_state=42)
-    model.fit(X, y)
+    model.fit(X_train, y_train)
 
     # hitung akurasi
     y_pred = model.predict(X_test)
@@ -52,7 +52,7 @@ def predict_tenant(model, encoders, prodi, budget, jenis_makanan):
     input_df = pd.DataFrame([{
         "Program Studi": encoders["Program Studi"].transform([prodi])[0],
         "Berapa rata-rata pengeluaran Anda per kunjungan?": encoders["Berapa rata-rata pengeluaran Anda per kunjungan?"].transform([budget])[0],
-        "Menu apa yang paling sering Anda pesan ? ": encoders["Menu apa yang paling sering Anda pesan ? "].transform([jenis_makanan])[0]
+        "Menu apa yang paling sering Anda pesan?": encoders["Menu apa yang paling sering Anda pesan?"].transform([jenis_makanan])[0]
     }])
     proba = model.predict_proba(input_df)[0]
     nama_tenant = encoders[target].classes_

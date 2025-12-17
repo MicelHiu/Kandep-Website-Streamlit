@@ -6,9 +6,9 @@ def convert_budget(budget):
     if budget < 10000:
         return "< Rp10.000"
     elif 10000 <= budget <= 20000:
-        return "Rp10.000 - Rp20.000"
+        return "10.000 - 20.000"
     elif 21000 <= budget <= 30000:
-        return "Rp21.000 - Rp30.000"
+        return "21.000 - 30.000"
     else:
         return "> Rp30.000"
 
@@ -110,7 +110,7 @@ if st.session_state.page == "Beranda":
     budget = st.slider(
         "Budget Pengeluaran (Rp)",
         min_value=5000,
-        max_value=100000,
+        max_value=50000,
         step=5000
     )
 
@@ -123,7 +123,7 @@ if st.session_state.page == "Beranda":
     st.markdown("---")
     if st.button("OK"):
         st.session_state.prodi = prodi
-        st.session_state.budget = budget
+        st.session_state.budget = convert_budget(budget)
         st.session_state.jenis_makanan = jenis_makanan
         
         #PINDAH HALAMAN
@@ -149,9 +149,9 @@ elif st.session_state.page == "Hasil Rekomendasi":
         top3 = predict_tenant(
             model,
             encoders,
-            prodi,
-            budget,
-            jenis_makanan
+            st.session_state.prodi,
+            st.session_state.budget,
+            st.session_state.jenis_makanan
         )
         st.subheader("3 Tenant Teratas untuk Anda:")
         for i, row in top3.iterrows():
