@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 import pandas as pd
 from model import load_model, predict_tenant 
 
@@ -81,18 +82,33 @@ if "page" not in st.session_state:
     st.session_state.page = "Beranda"
 
 #Sidebar
-pages = ["Beranda","Hasil Rekomendasi","About Us"]
+with st.sidebar:
+    selected = option_menu(
+        menu_title="Menu",
+        options=["Beranda", "Hasil Rekomendasi", "About Us"],
+        icons=["house", "shop", "info-circle"],
+        menu_icon="list",
+        default_index=["Beranda", "Hasil Rekomendasi", "About Us"]
+            .index(st.session_state.page),
+        styles={
+            "container": {"padding": "10px"},
+            "icon": {"font-size": "18px", "color": "white"},
+            "nav-link": {
+                "font-size": "16px",
+                "color": "black",
+                "margin": "6px",
+                "--hover-color": "#3A6EDC",
+            },
+            "nav-link-selected": {
+                "background-color": "#FFA62B",
+                "color": "#2E5AA7",
+                "font-weight": "bold",
+            },
+        }
+    )
 
-st.sidebar.title("Menu")
-menu = st.sidebar.radio(
-    "Pilih Halaman",
-    pages,
-    index=pages.index(st.session_state.page)
-)
+st.session_state.page = selected
 
-#update halama jika berubah
-if menu != st.session_state.page:
-    st.session_state.page = menu
 
 #Halaman Beranda
 if st.session_state.page == "Beranda":
@@ -172,9 +188,11 @@ elif st.session_state.page == "Hasil Rekomendasi":
 elif st.session_state.page == "About Us":
     st.title("ABOUT US")
     st.markdown("""
-        Kelompok 3 
-        Bene - 2023105489 
-        Catur - 2023105533 
-        Michelle - 2023105488 
-        Najla - 2023105534
+        Halo user! Program ini merupakan website rekomendasi tenant kantin depan Universitas Kalbis yang dapat membantu kalian dalam memilih tenant sesuai dengan preferensi masing-masing. Perlu diingat bahwa website ini masih dalam tahap pengembangan, jadi mohon maaf apabila terdapat kekurangan atau error pada saat penggunaan dan nantikan update selanjutnya ya!\n\n
+        
+        Website ini dibuat oleh:\n
+        1. Michelle Hiu (2023105488)\n
+        2. Najla Melinda Kiasati (2023105534)\n
+        3. Benediktus Nikolistyawan (2023105489)\n
+        4. Catur Bakti Prajna (2023105533)\n
         """, unsafe_allow_html=True)
