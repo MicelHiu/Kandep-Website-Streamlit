@@ -23,6 +23,19 @@ def load_css():
         background-color: #FBE6A1;
         font-family: 'Segoe UI', sans-serif;
     }
+    
+    /* FORCE text color */
+    section.main p,
+    section.main h1,
+    section.main h2,
+    section.main h3,
+    section.main h4,
+    section.main h5,
+    section.main h6,
+    section.main label,
+    section.main span {
+        color: #2E5AA7 !important;
+    }
 
     /* Sidebar */
     section[data-testid="stSidebar"] {
