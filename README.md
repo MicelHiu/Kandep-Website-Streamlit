@@ -6,6 +6,8 @@ KANDEP is a tenant recommendation website for the canteen in front of Universita
 
 The system uses survey data collected from Universitas Kalbis students (`Hasil survey.csv`) to train a machine learning model that works as a recommendation/search engine. Users simply enter their study program, budget, and preferred type of food, and the system shows the tenants with the highest relevance.
 
+## Live URL
+https://kandep-search-engine.streamlit.app/
 
 ## Features
 
