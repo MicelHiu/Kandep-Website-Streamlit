@@ -14,7 +14,7 @@ The system uses survey data collected from Universitas Kalbis students (`Hasil s
   - Study program (Program Studi)
   - Spending budget per visit (slider from Rp5,000 to Rp50,000, grouped into price ranges)
   - Most frequently ordered menu
-- **Three navigation pages**: Beranda (Home), Hasil Rekomendasi (Results), and About Us, accessible from the sidebar.
+- **Navigation pages**: Beranda (Home) and Tentang Kami (About Us), accessible from the sidebar.
 - **Pre-trained model**: the model and encoders are loaded from `.pkl` files, so predictions are fast.
 - **Unrecognized input handling**: shows a clear error message when the input does not match the training data.
 - **Custom UI**: a custom color theme and components styled with CSS.
@@ -37,7 +37,7 @@ Using a virtual environment is recommended (not required) to avoid conflicts wit
 
 ```bash
 python -m venv venv
-venv\Scripts\activate # Windows
+.venv\Scripts\activate # Windows
 # source venv/bin/activate
 # macOS / Linux
 pip install -r requirements
